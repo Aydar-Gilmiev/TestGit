@@ -43,7 +43,8 @@ public partial class MainWindow : Avalonia.Controls.Window
         UserStorage.Users.Add(new User
         {
             FullName = fullName,
-            Email = email
+            Email = email,
+            Password = password
         });
 
         StatusTextBlock.Foreground = new SolidColorBrush(Color.Parse("#067647"));
@@ -53,6 +54,63 @@ public partial class MainWindow : Avalonia.Controls.Window
         PasswordTextBox.Text = string.Empty;
         ConfirmPasswordTextBox.Text = string.Empty;
         UpdateUserCount();
+        FullNameTextBox.Focus();
+    }
+
+    private void LoginButton_OnClick(object? sender, RoutedEventArgs e)
+    {
+        var email = LoginEmailTextBox.Text?.Trim().ToLowerInvariant() ?? string.Empty;
+        var password = LoginPasswordTextBox.Text ?? string.Empty;
+
+        if (!EmailPattern.IsMatch(email))
+        {
+            ShowLoginError("Введите корректный адрес электронной почты.");
+            return;
+        }
+
+        if (password.Length == 0)
+        {
+            ShowLoginError("Введите пароль.");
+            return;
+        }
+
+        var user = UserStorage.Users.FirstOrDefault(candidate =>
+            string.Equals(candidate.Email, email, StringComparison.OrdinalIgnoreCase));
+
+        if (user is null || user.Password != password)
+        {
+            ShowLoginError("Неверный email или пароль.");
+            return;
+        }
+
+        LoginStatusTextBlock.Foreground = new SolidColorBrush(Color.Parse("#067647"));
+        LoginStatusTextBlock.Text = $"Вход выполнен. Добро пожаловать, {user.FullName}!";
+        LoginPasswordTextBox.Text = string.Empty;
+    }
+
+    private void SwitchToLoginButton_OnClick(object? sender, RoutedEventArgs e)
+    {
+        RegistrationPanel.IsVisible = false;
+        StatusTextBlock.IsVisible = false;
+        RegisterButton.IsVisible = false;
+        SwitchToLoginButton.IsVisible = false;
+        LoginPanel.IsVisible = true;
+        FormTitleTextBlock.Text = "Вход";
+        FormSubtitleTextBlock.Text = "Введите данные зарегистрированного пользователя";
+        Title = "Вход";
+        LoginEmailTextBox.Focus();
+    }
+
+    private void SwitchToRegistrationButton_OnClick(object? sender, RoutedEventArgs e)
+    {
+        RegistrationPanel.IsVisible = true;
+        StatusTextBlock.IsVisible = true;
+        RegisterButton.IsVisible = true;
+        SwitchToLoginButton.IsVisible = true;
+        LoginPanel.IsVisible = false;
+        FormTitleTextBlock.Text = "Регистрация";
+        FormSubtitleTextBlock.Text = "Заполните данные нового пользователя";
+        Title = "Регистрация";
         FullNameTextBox.Focus();
     }
 
@@ -74,6 +132,12 @@ public partial class MainWindow : Avalonia.Controls.Window
     {
         StatusTextBlock.Foreground = new SolidColorBrush(Color.Parse("#B42318"));
         StatusTextBlock.Text = message;
+    }
+
+    private void ShowLoginError(string message)
+    {
+        LoginStatusTextBlock.Foreground = new SolidColorBrush(Color.Parse("#B42318"));
+        LoginStatusTextBlock.Text = message;
     }
 
     private void UpdateUserCount()
