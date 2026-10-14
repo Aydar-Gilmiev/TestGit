@@ -8,7 +8,7 @@
         WindowStartupLocation="CenterScreen"
         Background="#F4F6FA"
         Icon="/Assets/avalonia-logo.ico"
-        Title="Регистрация">
+        Title="Регистрация и вход">
 
     <Window.Styles>
         <Style Selector="TextBlock.fieldLabel">
@@ -23,6 +23,12 @@
             <Setter Property="Padding" Value="12,9"/>
             <Setter Property="CornerRadius" Value="8"/>
         </Style>
+        <Style Selector="Button.modeButton">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#2563EB"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        </Style>
     </Window.Styles>
 
     <Grid ColumnDefinitions="*,440">
@@ -36,7 +42,7 @@
                 <TextBlock Text="Создайте аккаунт"
                            FontSize="36" FontWeight="Bold" Foreground="White"
                            TextWrapping="Wrap"/>
-                <TextBlock Text="Данные регистрации сохраняются в памяти приложения на время его работы."
+                <TextBlock Text="Данные пользователей сохраняются в памяти приложения на время его работы."
                            MaxWidth="390" FontSize="17" LineHeight="25"
                            Foreground="#CBD5E1" TextWrapping="Wrap"
                            HorizontalAlignment="Left"/>
@@ -49,49 +55,88 @@
 
         <ScrollViewer Grid.Column="1">
             <StackPanel Margin="48,38" Spacing="14">
-                <TextBlock Text="Регистрация" FontSize="30" FontWeight="Bold" Foreground="#101828"/>
-                <TextBlock Text="Заполните данные нового пользователя"
+                <TextBlock x:Name="FormTitleTextBlock" Text="Регистрация" FontSize="30" FontWeight="Bold" Foreground="#101828"/>
+                <TextBlock x:Name="FormSubtitleTextBlock" Text="Заполните данные нового пользователя"
                            Margin="0,0,0,8" Foreground="#667085" FontSize="15"/>
 
-                <StackPanel>
-                    <TextBlock Classes="fieldLabel" Text="Имя и фамилия"/>
-                    <TextBox x:Name="FullNameTextBox" Classes="formField"
-                             Watermark="Иван Иванов" MaxLength="100"/>
+                <StackPanel x:Name="RegistrationPanel" Spacing="14">
+                    <StackPanel>
+                        <TextBlock Classes="fieldLabel" Text="Имя и фамилия"/>
+                        <TextBox x:Name="FullNameTextBox" Classes="formField"
+                                 Watermark="Иван Иванов" MaxLength="100"/>
+                    </StackPanel>
+
+                    <StackPanel>
+                        <TextBlock Classes="fieldLabel" Text="Email"/>
+                        <TextBox x:Name="EmailTextBox" Classes="formField"
+                                 Watermark="name@example.com" MaxLength="150"/>
+                    </StackPanel>
+
+                    <StackPanel>
+                        <TextBlock Classes="fieldLabel" Text="Пароль"/>
+                        <TextBox x:Name="PasswordTextBox" Classes="formField"
+                                 Watermark="Минимум 8 символов" PasswordChar="●" MaxLength="100"/>
+                    </StackPanel>
+
+                    <StackPanel>
+                        <TextBlock Classes="fieldLabel" Text="Повторите пароль"/>
+                        <TextBox x:Name="ConfirmPasswordTextBox" Classes="formField"
+                                 Watermark="Введите пароль ещё раз" PasswordChar="●" MaxLength="100"/>
+                    </StackPanel>
+
+                    <TextBlock x:Name="StatusTextBlock" MinHeight="20"
+                               Foreground="#B42318" TextWrapping="Wrap"/>
+
+                    <Button x:Name="RegisterButton"
+                            Content="Создать аккаунт"
+                            Height="46"
+                            Margin="0,2,0,0"
+                            HorizontalContentAlignment="Center"
+                            HorizontalAlignment="Stretch"
+                            Background="#2563EB"
+                            Foreground="White"
+                            FontSize="15"
+                            FontWeight="SemiBold"
+                            CornerRadius="8"
+                            Click="RegisterButton_OnClick"/>
+
+                    <Button x:Name="SwitchToLoginButton" Classes="modeButton"
+                            Content="Уже есть аккаунт? Войти"
+                            Click="SwitchToLoginButton_OnClick"/>
                 </StackPanel>
 
-                <StackPanel>
-                    <TextBlock Classes="fieldLabel" Text="Email"/>
-                    <TextBox x:Name="EmailTextBox" Classes="formField"
-                             Watermark="name@example.com" MaxLength="150"/>
+                <StackPanel x:Name="LoginPanel" IsVisible="False" Spacing="14">
+                    <StackPanel>
+                        <TextBlock Classes="fieldLabel" Text="Email"/>
+                        <TextBox x:Name="LoginEmailTextBox" Classes="formField"
+                                 Watermark="name@example.com" MaxLength="150"/>
+                    </StackPanel>
+
+                    <StackPanel>
+                        <TextBlock Classes="fieldLabel" Text="Пароль"/>
+                        <TextBox x:Name="LoginPasswordTextBox" Classes="formField"
+                                 Watermark="Введите пароль" PasswordChar="●" MaxLength="100"/>
+                    </StackPanel>
+
+                    <TextBlock x:Name="LoginStatusTextBlock" MinHeight="20"
+                               Foreground="#B42318" TextWrapping="Wrap"/>
+
+                    <Button x:Name="LoginButton"
+                            Content="Войти"
+                            Height="46"
+                            HorizontalContentAlignment="Center"
+                            HorizontalAlignment="Stretch"
+                            Background="#2563EB"
+                            Foreground="White"
+                            FontSize="15"
+                            FontWeight="SemiBold"
+                            CornerRadius="8"
+                            Click="LoginButton_OnClick"/>
+
+                    <Button x:Name="SwitchToRegistrationButton" Classes="modeButton"
+                            Content="Нет аккаунта? Зарегистрироваться"
+                            Click="SwitchToRegistrationButton_OnClick"/>
                 </StackPanel>
-
-                <StackPanel>
-                    <TextBlock Classes="fieldLabel" Text="Пароль"/>
-                    <TextBox x:Name="PasswordTextBox" Classes="formField"
-                             Watermark="Минимум 8 символов" PasswordChar="●" MaxLength="100"/>
-                </StackPanel>
-
-                <StackPanel>
-                    <TextBlock Classes="fieldLabel" Text="Повторите пароль"/>
-                    <TextBox x:Name="ConfirmPasswordTextBox" Classes="formField"
-                             Watermark="Введите пароль ещё раз" PasswordChar="●" MaxLength="100"/>
-                </StackPanel>
-
-                <TextBlock x:Name="StatusTextBlock" MinHeight="20"
-                           Foreground="#B42318" TextWrapping="Wrap"/>
-
-                <Button x:Name="RegisterButton"
-                        Content="Создать аккаунт"
-                        Height="46"
-                        Margin="0,2,0,0"
-                        HorizontalContentAlignment="Center"
-                        HorizontalAlignment="Stretch"
-                        Background="#2563EB"
-                        Foreground="White"
-                        FontSize="15"
-                        FontWeight="SemiBold"
-                        CornerRadius="8"
-                        Click="RegisterButton_OnClick"/>
 
                 <TextBlock x:Name="UserCountTextBlock"
                            Margin="0,4,0,0"
