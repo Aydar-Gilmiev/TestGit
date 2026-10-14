@@ -1,20 +1,103 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="using:GitTestAvalonia.ViewModels"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="GitTestAvalonia.Views.MainWindow"
-        x:DataType="vm:MainWindowViewModel"
+        Width="960"
+        Height="640"
+        MinWidth="760"
+        MinHeight="560"
+        WindowStartupLocation="CenterScreen"
+        Background="#F4F6FA"
         Icon="/Assets/avalonia-logo.ico"
-        Title="GitTestAvalonia">
+        Title="Регистрация">
 
-    <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE,
-             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <vm:MainWindowViewModel/>
-    </Design.DataContext>
+    <Window.Styles>
+        <Style Selector="TextBlock.fieldLabel">
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="#344054"/>
+            <Setter Property="Margin" Value="0,0,0,6"/>
+        </Style>
+        <Style Selector="TextBox.formField">
+            <Setter Property="MinHeight" Value="44"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="Padding" Value="12,9"/>
+            <Setter Property="CornerRadius" Value="8"/>
+        </Style>
+    </Window.Styles>
 
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <Grid ColumnDefinitions="*,440">
+        <Border Grid.Column="0" Background="#172554" Padding="56">
+            <StackPanel VerticalAlignment="Center" Spacing="18">
+                <Border Width="56" Height="56" CornerRadius="16"
+                        Background="#3B82F6" HorizontalAlignment="Left">
+                    <TextBlock Text="✓" FontSize="30" Foreground="White"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+                <TextBlock Text="Создайте аккаунт"
+                           FontSize="36" FontWeight="Bold" Foreground="White"
+                           TextWrapping="Wrap"/>
+                <TextBlock Text="Данные регистрации сохраняются в памяти приложения на время его работы."
+                           MaxWidth="390" FontSize="17" LineHeight="25"
+                           Foreground="#CBD5E1" TextWrapping="Wrap"
+                           HorizontalAlignment="Left"/>
+                <Border Margin="0,18,0,0" Padding="16" CornerRadius="10" Background="#253568">
+                    <TextBlock Text="Учебный режим: после закрытия программы список пользователей очищается."
+                               Foreground="#DBEAFE" TextWrapping="Wrap"/>
+                </Border>
+            </StackPanel>
+        </Border>
 
+        <ScrollViewer Grid.Column="1">
+            <StackPanel Margin="48,38" Spacing="14">
+                <TextBlock Text="Регистрация" FontSize="30" FontWeight="Bold" Foreground="#101828"/>
+                <TextBlock Text="Заполните данные нового пользователя"
+                           Margin="0,0,0,8" Foreground="#667085" FontSize="15"/>
+
+                <StackPanel>
+                    <TextBlock Classes="fieldLabel" Text="Имя и фамилия"/>
+                    <TextBox x:Name="FullNameTextBox" Classes="formField"
+                             Watermark="Иван Иванов" MaxLength="100"/>
+                </StackPanel>
+
+                <StackPanel>
+                    <TextBlock Classes="fieldLabel" Text="Email"/>
+                    <TextBox x:Name="EmailTextBox" Classes="formField"
+                             Watermark="name@example.com" MaxLength="150"/>
+                </StackPanel>
+
+                <StackPanel>
+                    <TextBlock Classes="fieldLabel" Text="Пароль"/>
+                    <TextBox x:Name="PasswordTextBox" Classes="formField"
+                             Watermark="Минимум 8 символов" PasswordChar="●" MaxLength="100"/>
+                </StackPanel>
+
+                <StackPanel>
+                    <TextBlock Classes="fieldLabel" Text="Повторите пароль"/>
+                    <TextBox x:Name="ConfirmPasswordTextBox" Classes="formField"
+                             Watermark="Введите пароль ещё раз" PasswordChar="●" MaxLength="100"/>
+                </StackPanel>
+
+                <TextBlock x:Name="StatusTextBlock" MinHeight="20"
+                           Foreground="#B42318" TextWrapping="Wrap"/>
+
+                <Button x:Name="RegisterButton"
+                        Content="Создать аккаунт"
+                        Height="46"
+                        Margin="0,2,0,0"
+                        HorizontalContentAlignment="Center"
+                        HorizontalAlignment="Stretch"
+                        Background="#2563EB"
+                        Foreground="White"
+                        FontSize="15"
+                        FontWeight="SemiBold"
+                        CornerRadius="8"
+                        Click="RegisterButton_OnClick"/>
+
+                <TextBlock x:Name="UserCountTextBlock"
+                           Margin="0,4,0,0"
+                           FontSize="11" Foreground="#98A2B3"
+                           TextWrapping="Wrap"/>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
 </Window>
