@@ -83,9 +83,7 @@ public partial class MainWindow : Avalonia.Controls.Window
             return;
         }
 
-        LoginStatusTextBlock.Foreground = new SolidColorBrush(Color.Parse("#067647"));
-        LoginStatusTextBlock.Text = $"Вход выполнен. Добро пожаловать, {user.FullName}!";
-        LoginPasswordTextBox.Text = string.Empty;
+        OpenHomeWindow(user);
     }
 
     private void SwitchToLoginButton_OnClick(object? sender, RoutedEventArgs e)
@@ -143,5 +141,27 @@ public partial class MainWindow : Avalonia.Controls.Window
     private void UpdateUserCount()
     {
         UserCountTextBlock.Text = $"Пользователей в текущем сеансе: {UserStorage.Users.Count}";
+    }
+
+    private void OpenHomeWindow(User user)
+    {
+        var homeWindow = new HomeWindow(user);
+
+        homeWindow.LogoutRequested += (_, _) =>
+        {
+            LoginPasswordTextBox.Text = string.Empty;
+            LoginStatusTextBlock.Text = string.Empty;
+            Show();
+            LoginEmailTextBox.Focus();
+        };
+
+        homeWindow.Closed += (_, _) =>
+        {
+            if (!IsVisible)
+                Close();
+        };
+
+        homeWindow.Show();
+        Hide();
     }
 }
