@@ -1,0 +1,151 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="GitTestAvalonia.Views.HomeWindow"
+        Width="1040"
+        Height="680"
+        MinWidth="820"
+        MinHeight="560"
+        WindowStartupLocation="CenterScreen"
+        Background="#F5F7FB"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="Главная">
+
+    <Window.Styles>
+        <Style Selector="Button.navButton">
+            <Setter Property="MinHeight" Value="44"/>
+            <Setter Property="Padding" Value="14,10"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#CBD5E1"/>
+            <Setter Property="CornerRadius" Value="9"/>
+        </Style>
+        <Style Selector="Button.navButton:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#253568"/>
+        </Style>
+        <Style Selector="Button.navButton.active">
+            <Setter Property="Background" Value="#2563EB"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+        <Style Selector="Border.card">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#E5EAF2"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="14"/>
+            <Setter Property="Padding" Value="22"/>
+        </Style>
+    </Window.Styles>
+
+    <Grid ColumnDefinitions="240,*">
+        <Border Grid.Column="0" Background="#172554" Padding="20,26">
+            <Grid RowDefinitions="Auto,*,Auto">
+                <StackPanel Orientation="Horizontal" Spacing="11">
+                    <Border Width="40" Height="40" CornerRadius="11" Background="#3B82F6">
+                        <TextBlock Text="✓" FontSize="22" Foreground="White"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <StackPanel VerticalAlignment="Center" Spacing="1">
+                        <TextBlock Text="GitTest" FontSize="17" FontWeight="Bold" Foreground="White"/>
+                        <TextBlock Text="Avalonia" FontSize="12" Foreground="#94A3B8"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Grid.Row="1" Margin="0,38,0,0" Spacing="8">
+                    <TextBlock Text="МЕНЮ" Margin="14,0,0,6" FontSize="11"
+                               FontWeight="SemiBold" Foreground="#64748B"/>
+                    <Button Classes="navButton active" Content="⌂   Главная"/>
+                    <Button Classes="navButton" Content="◎   Профиль" IsEnabled="False"/>
+                    <Button Classes="navButton" Content="⚙   Настройки" IsEnabled="False"/>
+                </StackPanel>
+
+                <Button Grid.Row="2"
+                        Content="Выйти из аккаунта"
+                        MinHeight="44"
+                        HorizontalContentAlignment="Center"
+                        Background="#253568"
+                        Foreground="#E2E8F0"
+                        CornerRadius="9"
+                        Click="LogoutButton_OnClick"/>
+            </Grid>
+        </Border>
+
+        <ScrollViewer Grid.Column="1">
+            <StackPanel Margin="44,38" Spacing="24">
+                <Grid ColumnDefinitions="*,Auto">
+                    <StackPanel Spacing="5">
+                        <TextBlock x:Name="GreetingTextBlock"
+                                   FontSize="30" FontWeight="Bold" Foreground="#101828"/>
+                        <TextBlock Text="Рады снова вас видеть в приложении."
+                                   FontSize="15" Foreground="#667085"/>
+                    </StackPanel>
+                    <Border Grid.Column="1" Width="48" Height="48"
+                            CornerRadius="24" Background="#DBEAFE">
+                        <TextBlock x:Name="AvatarTextBlock"
+                                   FontSize="17" FontWeight="Bold" Foreground="#1D4ED8"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </Grid>
+
+                <Border Classes="card" Background="#EFF6FF" BorderBrush="#BFDBFE">
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="18">
+                        <Border Width="52" Height="52" CornerRadius="14" Background="#2563EB">
+                            <TextBlock Text="✓" FontSize="27" Foreground="White"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="4">
+                            <TextBlock Text="Вход выполнен успешно"
+                                       FontSize="18" FontWeight="SemiBold" Foreground="#1E3A8A"/>
+                            <TextBlock Text="Вы находитесь на главной странице учебного приложения."
+                                       Foreground="#475569" TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="18">
+                    <Border Classes="card">
+                        <StackPanel Spacing="14">
+                            <TextBlock Text="Ваш профиль" FontSize="17" FontWeight="SemiBold"
+                                       Foreground="#101828"/>
+                            <Border Height="1" Background="#EAECF0"/>
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="Имя" FontSize="12" Foreground="#98A2B3"/>
+                                <TextBlock x:Name="FullNameTextBlock" FontSize="15"
+                                           FontWeight="SemiBold" Foreground="#344054" TextWrapping="Wrap"/>
+                            </StackPanel>
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="Email" FontSize="12" Foreground="#98A2B3"/>
+                                <TextBlock x:Name="EmailTextBlock" FontSize="15"
+                                           Foreground="#344054" TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Grid.Column="1" Classes="card">
+                        <StackPanel Spacing="14">
+                            <TextBlock Text="Текущий сеанс" FontSize="17" FontWeight="SemiBold"
+                                       Foreground="#101828"/>
+                            <Border Height="1" Background="#EAECF0"/>
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="Сегодня" FontSize="12" Foreground="#98A2B3"/>
+                                <TextBlock x:Name="CurrentDateTextBlock" FontSize="15"
+                                           FontWeight="SemiBold" Foreground="#344054"/>
+                            </StackPanel>
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="Статус" FontSize="12" Foreground="#98A2B3"/>
+                                <StackPanel Orientation="Horizontal" Spacing="7">
+                                    <Ellipse Width="8" Height="8" Fill="#12B76A"
+                                             VerticalAlignment="Center"/>
+                                    <TextBlock Text="Активен" FontSize="15" Foreground="#067647"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+
+                <TextBlock Text="Это демонстрационный экран. Здесь можно разместить основной функционал проекта."
+                           HorizontalAlignment="Center" Foreground="#98A2B3"
+                           TextWrapping="Wrap" TextAlignment="Center"/>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Window>
